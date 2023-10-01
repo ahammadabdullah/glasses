@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
-  const { register } = useAuth();
+  const { register, updateUser } = useAuth();
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -12,8 +13,12 @@ const Register = () => {
     const password = e.target.password.value;
 
     register(email, password)
-      .then((res) => console.log(res.user))
-      .catch((err) => console.log({ err }));
+      .then(() =>
+        updateUser(name, imageUrl).then(() => {
+          toast.success("User Created");
+        })
+      )
+      .catch((err) => toast.error(err.message));
   };
   return (
     <>
