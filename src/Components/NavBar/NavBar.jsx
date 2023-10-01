@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
 const Menus = () => {
@@ -17,8 +17,10 @@ const Menus = () => {
 };
 const NavBar = () => {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
   const handleLogout = () => {
     logOut();
+    navigate("/login");
   };
   return (
     <>

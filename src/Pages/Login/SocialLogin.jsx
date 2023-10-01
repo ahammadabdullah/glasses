@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 
 const SocialLogin = () => {
@@ -5,8 +6,8 @@ const SocialLogin = () => {
 
   const handleSocialLogin = (media) => {
     media()
-      .then((res) => console.log(res.user))
-      .catch((err) => console.log(err));
+      .then(() => toast.success("Successfully logged in"))
+      .catch((err) => toast.error(err.message));
   };
 
   return (

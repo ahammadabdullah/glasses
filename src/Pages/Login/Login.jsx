@@ -1,19 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const handleLoginWithEmailPass = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
     login(email, password)
-      .then((res) => {
-        console.log(res.user);
+      .then(() => {
+        toast.success("Successfully Logged in");
+        navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
   return (
     <>
@@ -46,7 +48,7 @@ const Login = () => {
                 </label>
                 <input
                   name="password"
-                  type="text"
+                  type="password"
                   placeholder="password"
                   className="input input-bordered"
                 />

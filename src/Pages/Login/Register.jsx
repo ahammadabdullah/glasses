@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-hot-toast";
 
 const Register = () => {
   const { register, updateUser } = useAuth();
+  const navigate = useNavigate();
   const handleRegister = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -12,10 +13,15 @@ const Register = () => {
     const imageUrl = e.target.imageUrl.value;
     const password = e.target.password.value;
 
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
     register(email, password)
       .then(() =>
         updateUser(name, imageUrl).then(() => {
           toast.success("User Created");
+          navigate("/");
         })
       )
       .catch((err) => toast.error(err.message));
